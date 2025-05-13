@@ -2,6 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import os
+import pyfiglet
+
+# Función para mostrar la etiqueta con arte ASCII
+def mostrar_etiqueta():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    texto_ascii = pyfiglet.figlet_format("BotWebHunter")
+    print(texto_ascii)
+    print("🕵️‍♂️ Sígueme en Twitter: @ivancastl")
+    print("📢 Únete a mi grupo de Telegram: https://t.me/+_g4DIczsuI9hOWZh")
+    print("=" * 60)
 
 # Palabras clave para buscar en JS
 patrones_telegram = [
@@ -21,7 +31,6 @@ def buscar_referencias_telegram_en_js(url):
     scripts = soup.find_all("script")
     hallazgos = []
 
-    # Crear carpeta para guardar JS sospechosos
     if not os.path.exists("js_sospechosos"):
         os.makedirs("js_sospechosos")
 
@@ -52,7 +61,6 @@ def buscar_referencias_telegram_en_js(url):
                     'coincidencias': list(set(coincidencias))
                 })
 
-                # Guardar JS sospechoso
                 filename = os.path.join("js_sospechosos", re.sub(r'\W+', '_', source[-50:]) + ".js")
                 with open(filename, "w", encoding="utf-8") as f:
                     f.write(js_code)
@@ -66,8 +74,9 @@ def buscar_referencias_telegram_en_js(url):
     else:
         print("✅ No se detectaron referencias a Telegram.")
 
-# 👇 Cambia la URL para probar otro sitio
-url = input("🌐 Ingresa la URL a analizar: ").strip()
-buscar_referencias_telegram_en_js(url)
+if __name__ == "__main__":
+    mostrar_etiqueta()
+    url = input("🌐 Ingresa la URL a analizar: ").strip()
+    buscar_referencias_telegram_en_js(url)
 #https://cuscatlanpagos.web.app/
 #https://cloudflare-cdn-kdbvm.pages.dev/
